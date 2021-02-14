@@ -68,7 +68,6 @@ const getClietnHeightAndWidth = () => {
     let clientHeight = document.documentElement.clientHeight;
     let clientWidth = document.documentElement.clientWidth;
     let data = [clientHeight, clientWidth];
-    
     return data;
 }
 const sizeWindow = getClietnHeightAndWidth();
@@ -79,16 +78,17 @@ controlOffer.style.top = (sizeWindow[0]-100) + 'px';
 
 
 let count = 0;
-let colorArray = ['yellow', 'pink', 'blue', 'black', 'cornflowerblue', 'coral', 'red']
+let colorArray = ['yellow', 'pink', 'blue', 'black', 'cornflowerblue', 'coral', 'red'];
 //создание шариков
 const createBall = () => {
     const ball = document.createElement('div');
     ball.classList.add('red-box');
     const colorBall = randomInteger(0,6);
+    ball.setAttribute('data-color', colorArray[colorBall])
     ball.classList.add(colorArray[colorBall]);
     count += 1;
     ball.setAttribute('id', count)
-    ball.style.left = randomInteger(0, (sizeWindow[1]-200)) + 'px';
+    ball.style.left = randomInteger(300, (sizeWindow[1]-300)) + 'px';
     ball.style.top = sizeWindow[0] + 'px';
     offer.append(ball);    
 }
@@ -100,12 +100,29 @@ let lostChanse = 0;
 const moveBalls = () => {
     const redBoxClass = document.querySelectorAll('.red-box')
     for(item of redBoxClass) {
+        let move;
+        if(item.getAttribute('data-color') == 'yellow') {
+            move = 11;
+        } else if(item.getAttribute('data-color') == 'pink') {
+            move = 13;
+        } else if(item.getAttribute('data-color') == 'blue') {
+            move = 12;
+        } else if(item.getAttribute('data-color') == 'black') {
+            move = 10;
+        } else if(item.getAttribute('data-color') == 'cornflowerblue') {
+            move = 17;
+        } else if(item.getAttribute('data-color') == 'coral') {
+            move = 14;
+        } else if(item.getAttribute('data-color') == 'red') {
+            move = 18
+        }
+
         if(timerCount<=60 && timerCount >=40) {
             let size = parseInt(item.style.top, 10);
-            item.style.top = (size - 10) + 'px';
+            item.style.top = (size - move) + 'px';
         } else if(timerCount <40) {
             let size = parseInt(item.style.top, 10);
-            item.style.top = (size - 20) + 'px';
+            item.style.top = (size - (move*1.5)) + 'px';
         }
         const ballTopPlace = item.getBoundingClientRect();
         const checkBallTopPlace = ballTopPlace.top;
